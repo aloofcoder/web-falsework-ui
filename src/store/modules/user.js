@@ -43,9 +43,9 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        const { token } = response
+        commit('SET_TOKEN', token)
+        setToken(token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -62,6 +62,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
+
         const { name, avatar } = data
 
         commit('SET_NAME', name)
@@ -70,8 +71,7 @@ const actions = {
         let authList = getAuthList(auths)
         commit('SET_AUTH_LIST', authList)
         commit('SET_ROUTER_LIST', menuList)
-        router.addRoutes(menuList)
-        resolve(response)
+        resolve(menuList)
       }).catch(error => {
         reject(error)
       })

@@ -96,26 +96,32 @@
 </template>
 
 <script>
-import { fetchList, removeRole, addRole, editRole } from "@/api/role";
+import {
+  fetchList,
+  removeRole,
+  addRole,
+  editRole,
+  roleAuthMenu
+} from "@/api/role";
 import AddOrEditRole from "./add-or-edit-role";
-import AddRoleAuth from './add-role-auth';
+import AddRoleAuth from "./add-role-auth";
 export default {
   name: "RoleList",
   components: {
     AddOrEditRole,
-    AddRoleAuth,
+    AddRoleAuth
   },
   data() {
     return {
       searchObject: {
         condition: "",
         page: 1,
-        limit: 10,
+        limit: 10
       },
       total: 0,
       multipleSelection: [],
       tableData: [],
-      loading: false,
+      loading: false
     };
   },
   mounted() {
@@ -128,9 +134,9 @@ export default {
     handleSearch() {
       this.loading = true;
       fetchList({
-        ...this.searchObject,
+        ...this.searchObject
       })
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.searchObject.page = res.data.currPage;
             this.searchObject.limit = res.data.pageSize;
@@ -173,7 +179,7 @@ export default {
       this.multipleSelection = val;
     },
     handleDelete(ids) {
-      removeRole(ids).then((res) => {
+      removeRole(ids).then(res => {
         if (res.code === 0) {
           this.$message.success("删除成功");
           this.handleSearch();
@@ -185,19 +191,19 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-        callback: (action) => {
+        callback: action => {
           if (action === "confirm") {
-            let roleIds = this.multipleSelection.map((item) => item.roleId);
+            let roleIds = this.multipleSelection.map(item => item.roleId);
             this.handleDelete(roleIds);
           }
-        },
+        }
       });
     },
     handleConfirm(param, data) {
       this.$refs.roleDialog.loading = true;
       if (param) {
         editRole(data.roleId, data)
-          .then((res) => {
+          .then(res => {
             this.$refs.roleDialog.loading = true;
             if (res.code === 0) {
               this.$message.success("修改成功");
@@ -210,7 +216,7 @@ export default {
           });
       } else {
         addRole(data)
-          .then((res) => {
+          .then(res => {
             if (res.code === 0) {
               this.$message.success("添加成功");
               this.$refs.roleDialog.handleCancel();
@@ -223,9 +229,19 @@ export default {
       }
     },
     handleAuth(data) {
-
+      this.$refs.roleAuthDialog.loading = true;
+      roleAuthMenu(data.roleId, data.authMenus)
+        .then(res => {
+          if (res.code === 0) {
+            this.$message.success("角色授权菜单成功");
+            this.$refs.roleAuthDialog.handleCancel();
+          }
+        })
+        .finally(() => {
+          this.$refs.roleAuthDialog.loading = false;
+        });
     },
-    handleCancel() {},
-  },
+    handleCancel() {}
+  }
 };
 </script>

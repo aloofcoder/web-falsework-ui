@@ -48,3 +48,12 @@ export function fetchRoleMenu(param) {
         method: 'get'
     })
 }
+
+export function roleAuthMenu(param, data) {
+    return request({
+        url: `/roles/menus/${param}`,
+        method: 'post',
+        data
+    })
+}
+

@@ -13,7 +13,6 @@
           show-checkbox
           :props="defaultProps"
           :default-checked-keys="roleMenuId"
-          @check="handleCheckChange"
         ></el-tree>
       </el-form-item>
     </el-form>
@@ -36,28 +35,21 @@ export default {
       form: {
         roleId: "",
         roleName: "",
-        roleMark: "",
+        authMenus: []
       },
       formLabelWidth: "100px",
       roleRules: {
-        roleName: [
-          { required: true, message: "请输入角色名", trigger: "blur" },
-        ],
+        roleName: [{ required: true, message: "请输入角色名", trigger: "blur" }]
       },
       menuData: [],
       defaultProps: {
         children: "children",
-        label: "menuName",
+        label: "menuName"
       },
-      roleMenuId: [],
+      roleMenuId: []
     };
   },
   methods: {
-    handleCheckChange(data, node) {
-      this.checkStrictly = true;
-      let checkIds = this.$refs.menuAuthTree.getHalfCheckedKeys().concat(this.$refs.menuAuthTree.getCheckedKeys())
-      this.$refs.menuAuthTree.setCheckedKeys(checkIds)
-    },
     auth(data) {
       this.roleMenuId = [];
       this.menuData = [];
@@ -65,12 +57,12 @@ export default {
       this.loading = true;
       this.checkStrictly = true;
       fetchRoleMenu(data.roleId)
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.form.roleId = data.roleId;
             this.form.roleName = data.roleName;
             this.menuData = res.menuList;
-            this.roleMenuId = res.roleMenus.map((item) => item.id);
+            this.roleMenuId = res.roleMenus.map(item => item.id);
             this.checkStrictly = false;
           }
         })
@@ -84,16 +76,20 @@ export default {
       this.$refs.roleForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.roleForm.validate((valid) => {
+      this.$refs.roleForm.validate(valid => {
         if (!valid) {
           return false;
         } else {
+          let authMenus = [
+            ...this.$refs.menuAuthTree.getHalfCheckedKeys(),
+            ...this.$refs.menuAuthTree.getCheckedKeys()
+          ];
+          this.form.authMenus = authMenus;
           this.$emit("ok", this.form);
-          this.$store.dispatch('user/getInfo')
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
