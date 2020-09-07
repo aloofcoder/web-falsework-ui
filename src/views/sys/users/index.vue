@@ -48,7 +48,7 @@
         <el-table-column prop="userName" label="姓名" width="180" sortable="custom"></el-table-column>
         <el-table-column prop="loginName" label="登录名" width="180" sortable="custom"></el-table-column>
         <el-table-column prop="phoneNum" label="手机号" width="160"></el-table-column>
-        <el-table-column prop="userEmail" label="邮箱"></el-table-column>
+        <el-table-column prop="userEmail" label="邮箱" min-width="200"></el-table-column>
         <el-table-column prop="birthDate" label="生日" width="200" sortable="custom"></el-table-column>
         <el-table-column prop="status" label="状态" width="120" align="center" sortable="custom">
           <template slot-scope="scope">

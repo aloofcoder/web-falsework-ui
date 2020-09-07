@@ -1,5 +1,11 @@
 <template>
-  <el-dialog title="分配权限" :visible.sync="visibvle" width="500px" @close="handleCancel">
+  <el-dialog
+    :close-on-click-modal="false"
+    title="分配权限"
+    :visible.sync="visibvle"
+    width="500px"
+    @close="handleCancel"
+  >
     <el-form :model="form" :rules="roleRules" ref="roleForm" v-loading="loading">
       <el-form-item label="角色名" :label-width="formLabelWidth" prop="roleName">
         <el-input v-model="form.roleName" placeholder="请输入角色名" readonly></el-input>

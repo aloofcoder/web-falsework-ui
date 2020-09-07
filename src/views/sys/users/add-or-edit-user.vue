@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title()" :visible.sync="visibvle" width="500px" @close="handleCancel">
+  <el-dialog
+    :close-on-click-modal="false"
+    :title="title()"
+    :visible.sync="visibvle"
+    width="500px"
+    @close="handleCancel"
+  >
     <el-form :model="form" :rules="userRules" ref="userForm" v-loading="loading">
       <el-form-item label="部门" :label-width="formLabelWidth" prop="orgId">
         <el-select v-model="form.orgId" placeholder="请选择部门" filterable style="width: 100%">
@@ -18,7 +24,7 @@
         <el-input v-model="form.loginName" placeholder="请输入登录名"></el-input>
       </el-form-item>
       <el-form-item label="登录密码" :label-width="formLabelWidth" prop="loginPwd" v-if="!isEdit">
-        <el-input v-model="form.loginPwd" placeholder="请输入登录密码"></el-input>
+        <el-input v-model="form.loginPwd" placeholder="请输入登录密码" show-password></el-input>
       </el-form-item>
       <el-form-item label="手机号" :label-width="formLabelWidth" prop="phoneNum">
         <el-input v-model="form.phoneNum" placeholder="请输入手机号"></el-input>
@@ -60,7 +66,7 @@ export default {
         loginPwd: "",
         phoneNum: "",
         userEmail: "",
-        birthDate: "",
+        birthDate: ""
       },
       orgOptions: [],
       formLabelWidth: "100px",
@@ -72,8 +78,8 @@ export default {
             min: 1,
             max: 20,
             message: "姓名长度在 1 到 20 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         loginName: [
           { required: true, message: "请输入登录名", trigger: "blur" },
@@ -81,22 +87,22 @@ export default {
             min: 5,
             max: 20,
             message: "登录名长度在 5 到 20 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         loginPwd: [
-          { required: true, message: "请输入登录密码", trigger: "blur" },
+          { required: true, message: "请输入登录密码", trigger: "blur" }
         ],
         phoneNum: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
+          { required: true, message: "请输入手机号", trigger: "blur" }
         ],
         userEmail: [],
-        birthDate: [{ required: true, message: "请输入生日", trigger: "blur" }],
-      },
+        birthDate: [{ required: true, message: "请输入生日", trigger: "blur" }]
+      }
     };
   },
   mounted() {
-    fetchOrgList().then((res) => {
+    fetchOrgList().then(res => {
       if (res.code === 0) {
         this.orgOptions = res.data;
       }
@@ -112,7 +118,7 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchUser(data.userNum)
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.form = Object.assign({}, this.form, res.data);
           }
@@ -127,7 +133,7 @@ export default {
       this.$refs.userForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.userForm.validate((valid) => {
+      this.$refs.userForm.validate(valid => {
         if (!valid) {
           return false;
         } else {
@@ -137,8 +143,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "用户";
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title()" :visible.sync="visibvle" width="500px" @close="handleCancel">
+  <el-dialog
+    :close-on-click-modal="false"
+    :title="title()"
+    :visible.sync="visibvle"
+    width="500px"
+    @close="handleCancel"
+  >
     <el-form :model="form" :rules="roleRules" ref="roleForm" v-loading="loading">
       <el-form-item label="角色名" :label-width="formLabelWidth" prop="roleName">
         <el-input v-model="form.roleName" placeholder="请输入角色名"></el-input>
@@ -35,30 +41,30 @@ export default {
         roleMark: "",
         roleDesc: "",
         roleSort: "",
-        status: "",
+        status: ""
       },
       formLabelWidth: "100px",
       roleRules: {
         roleName: [
-          { required: true, message: "请输入角色名", trigger: "blur" },
+          { required: true, message: "请输入角色名", trigger: "blur" }
         ],
         roleMark: [
-          { required: true, message: "请输入角色标记", trigger: "blur" },
+          { required: true, message: "请输入角色标记", trigger: "blur" }
         ],
         roleDesc: [
-          { required: true, message: "请输入角色描述", trigger: "blur" },
+          { required: true, message: "请输入角色描述", trigger: "blur" }
         ],
         roleSort: [
-          { required: true, message: "请输入排序号", trigger: "blur" },
+          { required: true, message: "请输入排序号", trigger: "blur" }
         ],
         status: [
           {
             required: true,
             message: "请输入状态(1正常2禁用)",
-            trigger: "blur",
-          },
-        ],
-      },
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   methods: {
@@ -71,7 +77,7 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchRole(data.roleId)
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.form = Object.assign({}, this.form, res.data);
           }
@@ -86,7 +92,7 @@ export default {
       this.$refs.roleForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.roleForm.validate((valid) => {
+      this.$refs.roleForm.validate(valid => {
         if (!valid) {
           return false;
         } else {
@@ -96,8 +102,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "";
-    },
-  },
+    }
+  }
 };
 </script>
 

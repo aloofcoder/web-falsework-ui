@@ -71,7 +71,8 @@ const actions = {
         let authList = getAuthList(auths)
         commit('SET_AUTH_LIST', authList)
         commit('SET_ROUTER_LIST', menuList)
-        resolve(menuList)
+        router.addRoutes(menuList)
+        resolve(response)
       }).catch(error => {
         reject(error)
       })
@@ -81,14 +82,10 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      removeToken() // must remove  token  first
+      resetRouter()
+      commit('RESET_STATE')
+      resolve()
     })
   },
 

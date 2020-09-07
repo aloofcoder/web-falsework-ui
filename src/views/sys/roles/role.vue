@@ -239,6 +239,7 @@ export default {
         })
         .finally(() => {
           this.$refs.roleAuthDialog.loading = false;
+          this.$store.dispatch('user/getInfo')
         });
     },
     handleCancel() {}

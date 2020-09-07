@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title()" :visible.sync="visibvle" width="500px" @close="handleCancel">
+  <el-dialog
+    :close-on-click-modal="false"
+    :title="title()"
+    :visible.sync="visibvle"
+    width="500px"
+    @close="handleCancel"
+  >
     <el-form :model="form" :rules="menuRules" ref="menuForm" v-loading="loading">
       <el-form-item label="菜单类型" :label-width="formLabelWidth" prop="menuClass">
         <el-select
@@ -34,7 +40,12 @@
       <el-form-item label="菜单名" :label-width="formLabelWidth" prop="menuName">
         <el-input v-model="form.menuName" placeholder="请输入菜单名"></el-input>
       </el-form-item>
-      <el-form-item v-if="form.menuClass !== 3" label="菜单路径" :label-width="formLabelWidth" prop="menuPath">
+      <el-form-item
+        v-if="form.menuClass !== 3"
+        label="菜单路径"
+        :label-width="formLabelWidth"
+        prop="menuPath"
+      >
         <el-input v-model="form.menuPath" placeholder="请输入菜单路径"></el-input>
       </el-form-item>
       <el-form-item
@@ -108,66 +119,66 @@ export default {
         menuDesc: "",
         menuSort: "",
         isHidden: 0,
-        menuIcon: "",
+        menuIcon: ""
       },
       menuOptions: [
         {
           value: 1,
-          label: "目录",
+          label: "目录"
         },
         {
           value: 2,
-          label: "菜单",
+          label: "菜单"
         },
         {
           value: 3,
-          label: "按钮",
-        },
+          label: "按钮"
+        }
       ],
       formLabelWidth: "100px",
       menuRules: {
         parentId: [
-          { required: true, message: "请选择上级菜单", trigger: "change" },
+          { required: true, message: "请选择上级菜单", trigger: "change" }
         ],
         menuName: [
-          { required: true, message: "请输入菜单名", trigger: "blur" },
+          { required: true, message: "请输入菜单名", trigger: "blur" }
         ],
         menuPath: [
-          { required: true, message: "请输入菜单路径", trigger: "blur" },
+          { required: true, message: "请输入菜单路径", trigger: "blur" }
         ],
         menuComponent: [
-          { required: true, message: "请输入组件地址", trigger: "blur" },
+          { required: true, message: "请输入组件地址", trigger: "blur" }
         ],
         menuRedirect: [
-          { required: true, message: "请输入重定向路径", trigger: "blur" },
+          { required: true, message: "请输入重定向路径", trigger: "blur" }
         ],
         menuIcon: [
-          { required: true, message: "请输入菜单图标", trigger: "blur" },
+          { required: true, message: "请输入菜单图标", trigger: "blur" }
         ],
         menuMark: [
-          { required: true, message: "请输入菜单图标", trigger: "blur" },
+          { required: true, message: "请输入菜单图标", trigger: "blur" }
         ],
         menuClass: [
           {
             required: true,
             message: "请输入菜单类型（1目录2菜单3按钮）",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         menuDesc: [
-          { required: true, message: "请输入菜单描述", trigger: "blur" },
+          { required: true, message: "请输入菜单描述", trigger: "blur" }
         ],
         menuSort: [
-          { required: true, message: "请输入显示排序号", trigger: "blur" },
+          { required: true, message: "请输入显示排序号", trigger: "blur" }
         ],
         isHidden: [
           {
             required: true,
             message: "请输入是否隐藏（1隐藏0显示）",
-            trigger: "blur",
-          },
-        ],
-      },
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   mounted() {
@@ -189,7 +200,7 @@ export default {
       }
     },
     handleSearch() {
-      fetchMenuList().then((res) => {
+      fetchMenuList().then(res => {
         if (res.code === 0) {
           this.menuListOptions = res.data;
         }
@@ -204,7 +215,7 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchMenu(data.id)
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.form = Object.assign({}, this.form, res.data);
           }
@@ -219,7 +230,7 @@ export default {
       this.$refs.menuForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.menuForm.validate((valid) => {
+      this.$refs.menuForm.validate(valid => {
         if (!valid) {
           return false;
         } else {
@@ -229,8 +240,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "系统菜单";
-    },
-  },
+    }
+  }
 };
 </script>
 

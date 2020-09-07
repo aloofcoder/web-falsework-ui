@@ -1,5 +1,11 @@
 <template>
-  <el-dialog title="角色分配" :visible.sync="visibvle" width="500px" @close="handleCancel">
+  <el-dialog
+    :close-on-click-modal="false"
+    title="角色分配"
+    :visible.sync="visibvle"
+    width="500px"
+    @close="handleCancel"
+  >
     <el-form :model="form" :rules="roleRules" ref="roleForm" v-loading="loading">
       <el-form-item label="用户" :label-width="formLabelWidth" prop="userName">
         <el-input v-model="form.userName" placeholder="请输入用户名" readonly></el-input>
@@ -40,17 +46,17 @@ export default {
       form: {
         userNum: "",
         userName: "",
-        userRoles: [],
+        userRoles: []
       },
       formLabelWidth: "100px",
       roleRules: {
         userName: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: "请输入用户名", trigger: "blur" }
         ],
         userRoles: [
-          { required: true, message: "请选择角色", trigger: "change" },
-        ],
-      },
+          { required: true, message: "请选择角色", trigger: "change" }
+        ]
+      }
     };
   },
   methods: {
@@ -58,7 +64,7 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchUserRole(data.userNum)
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.roles = res.roleList;
             this.form.userRoles = res.userRoles;
@@ -76,15 +82,15 @@ export default {
       this.$refs.roleForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.roleForm.validate((valid) => {
+      this.$refs.roleForm.validate(valid => {
         if (!valid) {
           return false;
         } else {
           this.$emit("ok", this.form);
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

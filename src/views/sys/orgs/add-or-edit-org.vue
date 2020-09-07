@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title()" :visible.sync="visibvle" width="500px" @close="handleCancel">
+  <el-dialog
+    :close-on-click-modal="false"
+    :title="title()"
+    :visible.sync="visibvle"
+    width="500px"
+    @close="handleCancel"
+  >
     <el-form :model="form" :rules="orgRules" ref="orgForm" v-loading="loading">
       <el-form-item label="部门名" :label-width="formLabelWidth" prop="orgName">
         <el-input v-model="form.orgName" placeholder="请输入部门名"></el-input>
@@ -32,24 +38,22 @@ export default {
         orgName: "",
         orgDesc: "",
         orgSort: "",
-        status: "",
+        status: ""
       },
       formLabelWidth: "100px",
       orgRules: {
         parentId: [
-          { required: true, message: "请输入父部门", trigger: "blur" },
+          { required: true, message: "请输入父部门", trigger: "blur" }
         ],
         orgName: [{ required: true, message: "请输入部门名", trigger: "blur" }],
         orgDesc: [
-          { required: true, message: "请输入部门描述", trigger: "blur" },
+          { required: true, message: "请输入部门描述", trigger: "blur" }
         ],
         orgSort: [
-          { required: true, message: "请输入部门排序", trigger: "blur" },
+          { required: true, message: "请输入部门排序", trigger: "blur" }
         ],
-        status: [
-          { required: true, message: "请输入1(正常）", trigger: "blur" },
-        ],
-      },
+        status: [{ required: true, message: "请输入1(正常）", trigger: "blur" }]
+      }
     };
   },
   methods: {
@@ -62,7 +66,7 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchOrg(data.id)
-        .then((res) => {
+        .then(res => {
           if (res.code === 0) {
             this.form = Object.assign({}, this.form, res.data);
           }
@@ -77,7 +81,7 @@ export default {
       this.$refs.orgForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.orgForm.validate((valid) => {
+      this.$refs.orgForm.validate(valid => {
         if (!valid) {
           return false;
         } else {
@@ -87,8 +91,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "公司部门";
-    },
-  },
+    }
+  }
 };
 </script>
 
