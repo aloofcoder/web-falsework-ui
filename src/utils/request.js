@@ -46,7 +46,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 0) {
+    if (res.code !== '00000') {
       Message({
         message: res.msg || 'Error',
         type: 'error',
@@ -64,8 +64,12 @@ service.interceptors.response.use(
     if (error && error.response && error.response.status) {
       let status = error.response.status
       switch (status) {
+        case 401:
+          msg = '登录已失效'
+          break
         case 404:
           msg = '无效的请求地址'
+          break
         default:
           msg = error.message
       }

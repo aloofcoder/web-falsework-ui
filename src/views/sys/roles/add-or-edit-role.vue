@@ -78,7 +78,7 @@ export default {
       this.loading = true;
       fetchRole(data.roleId)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.form = Object.assign({}, this.form, res.data);
           }
         })

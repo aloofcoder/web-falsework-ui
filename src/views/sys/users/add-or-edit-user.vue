@@ -103,7 +103,7 @@ export default {
   },
   mounted() {
     fetchOrgList().then(res => {
-      if (res.code === 0) {
+      if (res.code === '00000') {
         this.orgOptions = res.data;
       }
     });
@@ -119,7 +119,7 @@ export default {
       this.loading = true;
       fetchUser(data.userNum)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.form = Object.assign({}, this.form, res.data);
           }
         })

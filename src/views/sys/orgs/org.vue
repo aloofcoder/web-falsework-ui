@@ -4,7 +4,7 @@
       <el-input
         style="width: 240px"
         class="filter-item"
-        placeholder="请输入条件"
+        placeholder="请输入部门名"
         v-model="searchObject.condition"
         type="text"
         clearable
@@ -45,9 +45,9 @@
       >
         <el-table-column type="selection"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-        <el-table-column prop="orgName" label="组织名" sortable="custom"></el-table-column>
-        <el-table-column prop="orgDesc" label="组织描述" sortable="custom"></el-table-column>
-        <el-table-column prop="orgSort" label="组织排序" sortable="custom"></el-table-column>
+        <el-table-column prop="orgName" label="部门名" sortable="custom"></el-table-column>
+        <el-table-column prop="orgDesc" label="部门描述" sortable="custom"></el-table-column>
+        <el-table-column prop="orgSort" label="部门排序" sortable="custom"></el-table-column>
         <el-table-column prop="status" label="状态" sortable="custom">
           <template slot-scope="scope">
             <el-switch
@@ -63,7 +63,7 @@
           <template slot-scope="scope">
             <el-button @click="handleOperate(scope.row, 'edit')" type="text" size="small">编辑</el-button>
             <el-divider direction="vertical"></el-divider>
-            <el-popconfirm :title="`您确定删除公司组织吗？`" @onConfirm="handleOperate(scope.row, 'delete')">
+            <el-popconfirm :title="`您确定删除部门吗？`" @onConfirm="handleOperate(scope.row, 'delete')">
               <el-button slot="reference" class="el-delete-btn" type="text" size="small">删除</el-button>
             </el-popconfirm>
           </template>
@@ -125,7 +125,7 @@ export default {
         ...this.searchObject,
       })
         .then((res) => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.searchObject.page = res.data.currPage;
             this.searchObject.limit = res.data.pageSize;
             this.total = res.data.totalCount;
@@ -165,14 +165,14 @@ export default {
     },
     handleDelete(ids) {
       removeOrg(ids).then((res) => {
-        if (res.code === 0) {
+        if (res.code === '00000') {
           this.$message.success("删除成功");
           this.handleSearch();
         }
       });
     },
     handleRemoveAll() {
-      this.$confirm(`确认删除公司组织吗?`, "确认", {
+      this.$confirm(`确认删除部门吗?`, "确认", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -190,7 +190,7 @@ export default {
         editOrg(data.id, data)
           .then((res) => {
             this.$refs.orgDialog.loading = true;
-            if (res.code === 0) {
+            if (res.code === '00000') {
               this.$message.success("修改成功");
               this.$refs.orgDialog.handleCancel();
               this.handleSearch();
@@ -202,7 +202,7 @@ export default {
       } else {
         addOrg(data)
           .then((res) => {
-            if (res.code === 0) {
+            if (res.code === '00000') {
               this.$message.success("添加成功");
               this.$refs.orgDialog.handleCancel();
               this.handleSearch();

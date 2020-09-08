@@ -64,7 +64,7 @@ export default {
       this.checkStrictly = true;
       fetchRoleMenu(data.roleId)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.form.roleId = data.roleId;
             this.form.roleName = data.roleName;
             this.menuData = res.menuList;

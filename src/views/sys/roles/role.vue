@@ -4,7 +4,7 @@
       <el-input
         style="width: 240px"
         class="filter-item"
-        placeholder="请输入条件"
+        placeholder="请输入角色名/角色标记"
         v-model="searchObject.condition"
         type="text"
         clearable
@@ -101,7 +101,7 @@ import {
   removeRole,
   addRole,
   editRole,
-  roleAuthMenu
+  roleAuthMenu,
 } from "@/api/role";
 import AddOrEditRole from "./add-or-edit-role";
 import AddRoleAuth from "./add-role-auth";
@@ -109,19 +109,19 @@ export default {
   name: "RoleList",
   components: {
     AddOrEditRole,
-    AddRoleAuth
+    AddRoleAuth,
   },
   data() {
     return {
       searchObject: {
         condition: "",
         page: 1,
-        limit: 10
+        limit: 10,
       },
       total: 0,
       multipleSelection: [],
       tableData: [],
-      loading: false
+      loading: false,
     };
   },
   mounted() {
@@ -134,10 +134,10 @@ export default {
     handleSearch() {
       this.loading = true;
       fetchList({
-        ...this.searchObject
+        ...this.searchObject,
       })
-        .then(res => {
-          if (res.code === 0) {
+        .then((res) => {
+          if (res.code === "00000") {
             this.searchObject.page = res.data.currPage;
             this.searchObject.limit = res.data.pageSize;
             this.total = res.data.totalCount;
@@ -179,8 +179,8 @@ export default {
       this.multipleSelection = val;
     },
     handleDelete(ids) {
-      removeRole(ids).then(res => {
-        if (res.code === 0) {
+      removeRole(ids).then((res) => {
+        if (res.code === "00000") {
           this.$message.success("删除成功");
           this.handleSearch();
         }
@@ -191,21 +191,21 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-        callback: action => {
+        callback: (action) => {
           if (action === "confirm") {
-            let roleIds = this.multipleSelection.map(item => item.roleId);
+            let roleIds = this.multipleSelection.map((item) => item.roleId);
             this.handleDelete(roleIds);
           }
-        }
+        },
       });
     },
     handleConfirm(param, data) {
       this.$refs.roleDialog.loading = true;
       if (param) {
         editRole(data.roleId, data)
-          .then(res => {
+          .then((res) => {
             this.$refs.roleDialog.loading = true;
-            if (res.code === 0) {
+            if (res.code === "00000") {
               this.$message.success("修改成功");
               this.$refs.roleDialog.handleCancel();
               this.handleSearch();
@@ -216,8 +216,8 @@ export default {
           });
       } else {
         addRole(data)
-          .then(res => {
-            if (res.code === 0) {
+          .then((res) => {
+            if (res.code === "00000") {
               this.$message.success("添加成功");
               this.$refs.roleDialog.handleCancel();
               this.handleSearch();
@@ -231,18 +231,18 @@ export default {
     handleAuth(data) {
       this.$refs.roleAuthDialog.loading = true;
       roleAuthMenu(data.roleId, data.authMenus)
-        .then(res => {
-          if (res.code === 0) {
+        .then((res) => {
+          if (res.code === "00000") {
             this.$message.success("角色授权菜单成功");
             this.$refs.roleAuthDialog.handleCancel();
           }
         })
         .finally(() => {
           this.$refs.roleAuthDialog.loading = false;
-          this.$store.dispatch('user/getInfo')
+          this.$store.dispatch("user/getInfo");
         });
     },
-    handleCancel() {}
-  }
+    handleCancel() {},
+  },
 };
 </script>

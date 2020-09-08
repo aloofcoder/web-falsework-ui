@@ -141,7 +141,7 @@ export default {
         ...this.searchObject,
       })
         .then((res) => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.searchObject.page = res.data.currPage;
             this.searchObject.limit = res.data.pageSize;
             this.total = res.data.totalCount;
@@ -189,7 +189,7 @@ export default {
     handleDelete(userNums) {
       console.log(userNums, "11111111");
       removeUser(userNums).then((res) => {
-        if (res.code === 0) {
+        if (res.code === '00000') {
           this.$message.success("删除用户成功");
           this.handleSearch();
         }
@@ -221,7 +221,7 @@ export default {
       if (param) {
         editUser(data.userNum, data)
           .then((res) => {
-            if (res.code === 0) {
+            if (res.code === '00000') {
               this.$message.success("修改用户成功");
               this.$refs.userDialog.handleCancel();
               this.handleSearch();
@@ -233,7 +233,7 @@ export default {
       } else {
         addUser(data)
           .then((res) => {
-            if (res.code === 0) {
+            if (res.code === '00000') {
               this.$message.success("添加用户成功");
               this.$refs.userDialog.handleCancel();
               this.handleSearch();
@@ -248,7 +248,7 @@ export default {
       console.log("角色分配：", data);
       this.$refs.assignRoleDialog.loading = true;
       assignUserRole(data.userNum, data.userRoles).then((res) => {
-        if (res.code === 0) {
+        if (res.code === '00000') {
           this.$message.success("用户角色分配成功");
           this.$refs.assignRoleDialog.handleCancel();
           this.handleSearch();

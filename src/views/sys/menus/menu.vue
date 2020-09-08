@@ -4,7 +4,7 @@
       <el-input
         style="width: 240px"
         class="filter-item"
-        placeholder="请输入条件"
+        placeholder="请输入菜单名/菜单路径"
         v-model="searchObject.condition"
         type="text"
         clearable
@@ -182,7 +182,7 @@ export default {
         ...this.searchObject,
       })
         .then((res) => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.tableData = res.data;
           }
         })
@@ -219,7 +219,7 @@ export default {
     },
     handleDelete(ids) {
       removeMenu(ids).then((res) => {
-        if (res.code === 0) {
+        if (res.code === '00000') {
           this.$message.success("删除成功");
           this.handleSearch();
         }
@@ -245,7 +245,7 @@ export default {
         editMenu(data.id, data)
           .then((res) => {
             this.$refs.menuDialog.loading = true;
-            if (res.code === 0) {
+            if (res.code === '00000') {
               this.$message.success("修改成功");
               this.$refs.menuDialog.handleCancel();
               this.handleSearch();
@@ -258,7 +258,7 @@ export default {
       } else {
         addMenu(data)
           .then((res) => {
-            if (res.code === 0) {
+            if (res.code === '00000') {
               this.$message.success("添加成功");
               this.$refs.menuDialog.handleCancel();
               this.handleSearch();

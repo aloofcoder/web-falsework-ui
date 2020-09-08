@@ -67,7 +67,7 @@ export default {
       this.loading = true;
       fetchOrg(data.id)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.form = Object.assign({}, this.form, res.data);
           }
         })
@@ -90,7 +90,7 @@ export default {
       });
     },
     title() {
-      return (this.isEdit ? "编辑" : "添加") + "公司部门";
+      return (this.isEdit ? "编辑" : "添加") + "部门";
     }
   }
 };

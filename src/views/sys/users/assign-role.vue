@@ -65,7 +65,7 @@ export default {
       this.loading = true;
       fetchUserRole(data.userNum)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.roles = res.roleList;
             this.form.userRoles = res.userRoles;
             this.form.userName = data.userName;

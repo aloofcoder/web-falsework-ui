@@ -201,7 +201,7 @@ export default {
     },
     handleSearch() {
       fetchMenuList().then(res => {
-        if (res.code === 0) {
+        if (res.code === '00000') {
           this.menuListOptions = res.data;
         }
       });
@@ -216,7 +216,7 @@ export default {
       this.loading = true;
       fetchMenu(data.id)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '00000') {
             this.form = Object.assign({}, this.form, res.data);
           }
         })
