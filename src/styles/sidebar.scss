@@ -19,6 +19,7 @@
     left: 0;
     z-index: 1001;
     overflow: hidden;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
 
     // reset element-ui css
     .horizontal-collapse-transition {
@@ -68,6 +69,10 @@
       width: 100% !important;
     }
 
+    .el-menu-item {
+      border-left: 3px solid #FFFFFF;
+    }
+
     // menu hover
     .submenu-title-noDropdown,
     .el-submenu__title {
@@ -86,8 +91,14 @@
       background-color: $subMenuBg !important;
 
       &:hover {
-        background-color: $subMenuHover !important;
+        color: #009efb !important;
+        border-left: 3px solid #009efb;
       }
+    }
+
+    & .el-menu-item.is-active {
+      background-color: #f2f7f8 !important;
+      border-left: 3px solid #009efb;
     }
   }
 

@@ -9,7 +9,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  background: #fff;
+  font-family: "Rubik", sans-serif;
+  color: #54667a;
+  font-weight: 300;
+  // font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 }
 
 label {
@@ -61,7 +65,9 @@ div:focus {
 
 // main-container global css
 .app-container {
-  padding: 20px;
+  padding: 15px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
 }
 
 .filter-container {
@@ -87,4 +93,8 @@ div:focus {
 }
 .el-table-empty-icon {
   font-size: 100px;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: #ecebea;
 }
