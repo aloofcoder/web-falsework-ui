@@ -37,6 +37,7 @@
         :data="tableData"
         style="width: 100%"
         stripe
+        border
         @selection-change="handleSelectionChange"
         show-overflow-tooltip
         v-loading="loading"

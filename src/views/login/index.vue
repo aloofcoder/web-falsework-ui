@@ -50,14 +50,14 @@
       <el-button
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;"
+        class="login-btn"
         @click.native.prevent="handleLogin"
         size="large"
       >登录</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
-        <span>password: any</span>
+        <span>password: admin!@#</span>
       </div>
     </el-form>
   </div>
@@ -86,28 +86,28 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "admin!@#",
+        password: "admin!@#"
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: "blur", validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
+          { required: true, trigger: "blur", validator: validatePassword }
+        ]
       },
       loading: false,
       passwordType: "password",
-      redirect: undefined,
+      redirect: undefined
     };
   },
   watch: {
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         this.redirect = route.query && route.query.redirect;
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     showPwd() {
@@ -121,7 +121,7 @@ export default {
       });
     },
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
@@ -138,8 +138,8 @@ export default {
           return false;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -147,8 +147,8 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg: #283443;
-$light_gray: #333;
+$bg: #54667a;
+$light_gray: #54667a;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -158,7 +158,7 @@ $cursor: #fff;
 }
 
 .login-container .el-form-item {
-  border-bottom: 1px solid #CCCCCC !important;
+  border-bottom: 1px solid #cccccc !important;
   background: white !important;
   border-radius: 0 !important;
 }
@@ -191,37 +191,38 @@ $cursor: #fff;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    color: #454545;
+    color: #54667a;
   }
 }
 </style>
 
 <style lang="scss" scoped>
 $bg: #2d3a4b;
-$dark_gray: #333333;
-$light_gray: #333333;
+$dark_gray: #54667a;
+$light_gray: #54667a;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background: url("../../assets/bg.jpg") no-repeat;
+  background: url("../../assets/bg.png") no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
 
   .login-form {
     background-color: white;
+    box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
     position: relative;
-    width: 450px;
+    width: 400px;
     max-width: 100%;
     padding: 35px 45px;
-    margin: 150px auto;
-    border-radius: 3%;
+    margin: 120px auto;
+    border-radius: 1%;
     overflow: hidden;
   }
 
   .tips {
-    font-size: 14px;
-    color: #666666;
+    font-size: 16px;
+    color: #54667a;
     margin-bottom: 10px;
 
     span {
@@ -243,11 +244,10 @@ $light_gray: #333333;
     position: relative;
 
     .title {
-      font-size: 26px;
-      color: $light_gray;
       margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #2c2b2e;
     }
   }
 
@@ -259,6 +259,27 @@ $light_gray: #333333;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .login-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+    color: #fff;
+    background-color: #009efb;
+    border-color: #009efb;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 5px;
+  }
+
+  .login-btn:hover {
+    text-decoration: none;
+    background-color: #0178bc;
+    border-color: #0178bc;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
   }
 }
 </style>

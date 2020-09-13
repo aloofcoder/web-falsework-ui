@@ -9,17 +9,24 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown placement="bottom-start" class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" />
-          <i class="el-icon-caret-bottom" />
+          <span class="el-name-bottom">
+            {{name}}
+            <!-- <i class="el-icon-caret-bottom" /> -->
+          </span>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item>Home</el-dropdown-item>
+            <el-dropdown-item>
+              <svg-icon icon-class="home" />&nbsp;&nbsp; 首页
+            </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">
+              <svg-icon icon-class="logout" />&nbsp;&nbsp; 登出
+            </span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -35,10 +42,10 @@ import Hamburger from "@/components/Hamburger";
 export default {
   components: {
     Breadcrumb,
-    Hamburger,
+    Hamburger
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar"]),
+    ...mapGetters(["name", "sidebar", "avatar"])
   },
   methods: {
     toggleSideBar() {
@@ -47,8 +54,8 @@ export default {
     async logout() {
       await this.$store.dispatch("user/logout");
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -108,7 +115,7 @@ export default {
     }
 
     .avatar-container {
-      margin-right: 30px;
+      margin-right: 75px;
 
       .avatar-wrapper {
         margin-top: 15px;
@@ -118,15 +125,26 @@ export default {
           cursor: pointer;
           width: 40px;
           height: 40px;
-          border-radius: 10px;
+          border-radius: 40px;
+        }
+
+        .el-name-bottom {
+          cursor: pointer;
+          position: absolute;
+          top: -10px;
+          // right: -70px;
+          margin-left: 12px;
+          color: #ffffff;
+          max-width: 4rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .el-icon-caret-bottom {
           cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
           font-size: 12px;
+          color: #ffffff;
         }
       }
     }

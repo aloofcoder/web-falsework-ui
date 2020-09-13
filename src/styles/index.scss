@@ -4,6 +4,7 @@
 @import './element-ui.scss';
 @import './sidebar.scss';
 
+
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -96,5 +97,16 @@ div:focus {
 }
 
 .el-table--striped .el-table__body tr.el-table__row--striped td {
-  background-color: #ecebea;
+  background: #ecf9fc;
+}
+
+.el-table {
+  color: #54667A;
+}
+
+.el-table td, .el-table th.is-leaf,.el-table--border, .el-table--group{
+  border-color: #e8eef3; 
+}
+.el-table--border::after, .el-table--group::after, .el-table::before{
+  background-color: #e8eef3;
 }

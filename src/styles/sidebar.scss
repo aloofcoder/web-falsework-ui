@@ -69,9 +69,10 @@
       width: 100% !important;
     }
 
-    .el-menu-item {
+    .el-menu-item,.el-submenu__title {
       border-left: 3px solid #FFFFFF;
     }
+    
 
     // menu hover
     .submenu-title-noDropdown,
@@ -99,6 +100,12 @@
     & .el-menu-item.is-active {
       background-color: #f2f7f8 !important;
       border-left: 3px solid #009efb;
+    }
+
+    & .el-submenu__title {
+      &:hover {
+        border-left: 3px solid #009efb;
+      }
     }
   }
 
