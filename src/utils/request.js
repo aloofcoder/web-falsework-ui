@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import router from '../router'
 
 // create an axios instance
 const service = axios.create({
@@ -43,7 +44,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-
+    console.log(res, 'res', router);
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== '00000') {
       Message({
@@ -60,10 +61,12 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     let msg
+    let login = false
     if (error && error.response && error.response.status) {
       let status = error.response.status
       switch (status) {
         case 401:
+          login = true
           msg = '登录已失效'
           break
         case 404:
@@ -80,6 +83,9 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
+    if(login) {
+      router.replace(`/login?redirect=${router.currentRoute.path}`)
+    }
     return Promise.reject(error)
   }
 )

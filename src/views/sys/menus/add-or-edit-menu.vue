@@ -109,17 +109,17 @@ export default {
       isEdit: false,
       visibvle: false,
       form: {
-        parentId: "",
-        menuName: "",
-        menuPath: "",
-        menuRedirect: "",
-        menuComponent: "",
-        menuMark: "",
+        parentId: undefined,
+        menuName: undefined,
+        menuPath: undefined,
+        menuRedirect: undefined,
+        menuComponent: undefined,
+        menuMark: undefined,
         menuClass: 2,
-        menuDesc: "",
-        menuSort: "",
+        menuDesc: undefined,
+        menuSort: 0,
         isHidden: 0,
-        menuIcon: ""
+        menuIcon: undefined
       },
       menuOptions: [
         {
@@ -235,6 +235,7 @@ export default {
           return false;
         } else {
           this.$emit("ok", this.isEdit, this.form);
+          this.handleSearch();
         }
       });
     },

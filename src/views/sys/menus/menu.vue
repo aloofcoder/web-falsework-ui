@@ -66,7 +66,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column prop="menuComponent" label="组件地址" min-width="150" sortable="custom"></el-table-column>
+        <el-table-column prop="menuComponent" label="组件地址" min-width="240" sortable="custom"></el-table-column>
         <el-table-column prop="menuMark" label="权限标记" min-width="150" sortable="custom"></el-table-column>
         <el-table-column
           prop="menuClass"
@@ -77,7 +77,7 @@
         >
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.menuClass === 1 ? 'success' : scope.row.menuClass === 2 ? '' : 'warning'"
+              :type="scope.row.menuClass === 1 ? 'danger' : scope.row.menuClass === 2 ? '' : 'warning'"
               size="mini"
             >{{scope.row.menuClass === 1 ? '目录' : scope.row.menuClass === 2 ? '菜单' : '按钮'}}</el-tag>
           </template>
@@ -166,7 +166,6 @@ export default {
   },
   methods: {
     handleExpandChange(row, expanded) {
-      console.log(row, expanded);
       if (expanded) {
         this.expands.push(`${row.id}`);
       } else {
@@ -239,7 +238,6 @@ export default {
       });
     },
     handleConfirm(param, data) {
-      console.log(data.parentId);
       this.$refs.menuDialog.loading = true;
       if (param) {
         editMenu(data.id, data)

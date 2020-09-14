@@ -60,13 +60,13 @@ export default {
       isEdit: false,
       visibvle: false,
       form: {
-        orgId: "",
-        userName: "",
-        loginName: "",
-        loginPwd: "",
-        phoneNum: "",
-        userEmail: "",
-        birthDate: ""
+        orgId: undefined,
+        userName: undefined,
+        loginName: undefined,
+        loginPwd: undefined,
+        phoneNum: undefined,
+        userEmail: undefined,
+        birthDate: undefined
       },
       orgOptions: [],
       formLabelWidth: "100px",
