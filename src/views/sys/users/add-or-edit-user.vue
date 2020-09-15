@@ -66,7 +66,7 @@ export default {
         loginPwd: undefined,
         phoneNum: undefined,
         userEmail: undefined,
-        birthDate: undefined
+        birthDate: undefined,
       },
       orgOptions: [],
       formLabelWidth: "100px",
@@ -75,11 +75,11 @@ export default {
         userName: [
           { required: true, message: "请输入姓名", trigger: "blur" },
           {
-            min: 1,
+            min: 2,
             max: 20,
-            message: "姓名长度在 1 到 20 个字符",
-            trigger: "blur"
-          }
+            message: "姓名长度在 2 到 20 个字符",
+            trigger: "blur",
+          },
         ],
         loginName: [
           { required: true, message: "请输入登录名", trigger: "blur" },
@@ -87,23 +87,51 @@ export default {
             min: 5,
             max: 20,
             message: "登录名长度在 5 到 20 个字符",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         loginPwd: [
-          { required: true, message: "请输入登录密码", trigger: "blur" }
+          { required: true, message: "请输入登录密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 20,
+            message: "登录密码长度在 5 到 20 个字符",
+            trigger: "blur",
+          },
         ],
         phoneNum: [
-          { required: true, message: "请输入手机号", trigger: "blur" }
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          {
+            len: 11,
+            message: "手机号号格式不正确",
+            trigger: "blur",
+          },
         ],
-        userEmail: [],
-        birthDate: [{ required: true, message: "请输入生日", trigger: "blur" }]
-      }
+        userEmail: [
+          {
+            pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            message: "无效的邮箱格式",
+            trigger: "blur",
+          },
+        ],
+        birthDate: [
+          {
+            required: true,
+            message: "请输入生日",
+            trigger: "blur",
+          },
+          {
+            required: true,
+            message: "请输入生日",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   mounted() {
-    fetchOrgList().then(res => {
-      if (res.code === '00000') {
+    fetchOrgList().then((res) => {
+      if (res.code === "00000") {
         this.orgOptions = res.data;
       }
     });
@@ -118,8 +146,8 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchUser(data.userNum)
-        .then(res => {
-          if (res.code === '00000') {
+        .then((res) => {
+          if (res.code === "00000") {
             this.form = Object.assign({}, this.form, res.data);
           }
         })
@@ -133,7 +161,7 @@ export default {
       this.$refs.userForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.userForm.validate(valid => {
+      this.$refs.userForm.validate((valid) => {
         if (!valid) {
           return false;
         } else {
@@ -143,8 +171,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "用户";
-    }
-  }
+    },
+  },
 };
 </script>
 

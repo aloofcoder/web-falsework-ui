@@ -23,9 +23,10 @@
         icon="el-icon-plus"
         type="primary"
         @click="handleAdd()"
+        v-if="$authed('sys:menus:add')"
       >添加</el-button>
       <el-button
-        v-if="multipleSelection.length > 0"
+        v-if="multipleSelection.length > 0 && $authed('sys:menus:deletes')"
         class="filter-item"
         icon="el-icon-delete"
         type="danger"
@@ -39,7 +40,6 @@
         @expand-change="handleExpandChange"
         :data="tableData"
         style="width: 100%"
-        stripe
         border
         @selection-change="handleSelectionChange"
         show-overflow-tooltip
@@ -49,7 +49,7 @@
       >
         <el-table-column type="selection"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-        <el-table-column prop="menuName" label="菜单名" min-width="150" sortable="custom">
+        <el-table-column prop="menuName" label="菜单名" min-width="200" sortable="custom">
           <template slot-scope="scope">{{scope.row.menuName}}</template>
         </el-table-column>
         <el-table-column prop="menuPath" label="菜单路径" min-width="200" sortable="custom"></el-table-column>
@@ -101,6 +101,7 @@
         <el-table-column prop="status" label="状态" width="120" align="center" sortable="custom">
           <template slot-scope="scope">
             <el-switch
+              :disabled="true"
               v-model="scope.row.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
@@ -110,11 +111,26 @@
           </template>
         </el-table-column>
         <el-table-column prop="menuDesc" label="菜单描述" min-width="180" sortable="custom"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="110" align="center">
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="110"
+          align="center"
+          v-if="$authed('sys:menus:update') || $authed('sys:menus:delete')"
+        >
           <template slot-scope="scope">
-            <el-button @click="handleOperate(scope.row, 'edit')" type="text" size="small">编辑</el-button>
-            <el-divider direction="vertical"></el-divider>
+            <el-button
+              v-if="$authed('sys:menus:update')"
+              @click="handleOperate(scope.row, 'edit')"
+              type="text"
+              size="small"
+            >编辑</el-button>
+            <el-divider
+              direction="vertical"
+              v-if="$authed('sys:menus:update') && $authed('sys:menus:delete')"
+            ></el-divider>
             <el-popconfirm
+              v-if="$authed('sys:menus:delete')"
               :title="`您确定删除菜单【${scope.row.menuName}】吗？`"
               @onConfirm="handleOperate(scope.row, 'delete')"
             >
@@ -166,22 +182,23 @@ export default {
   },
   methods: {
     handleExpandChange(row, expanded) {
-      if (expanded) {
-        this.expands.push(`${row.id}`);
-      } else {
-        this.expands.pop(`${row.id}`);
-      }
+      // if (expanded) {
+      //   this.expands.push(`${row.id}`);
+      // } else {
+      //   this.expands.pop(`${row.id}`);
+      // }
     },
     handleAdd() {
       this.$refs.menuDialog.add();
     },
     handleSearch() {
+      this.expands = [];
       this.loading = true;
       fetchTree({
         ...this.searchObject,
       })
         .then((res) => {
-          if (res.code === '00000') {
+          if (res.code === "00000") {
             this.tableData = res.data;
           }
         })
@@ -218,7 +235,7 @@ export default {
     },
     handleDelete(ids) {
       removeMenu(ids).then((res) => {
-        if (res.code === '00000') {
+        if (res.code === "00000") {
           this.$message.success("删除成功");
           this.handleSearch();
         }
@@ -238,16 +255,20 @@ export default {
       });
     },
     handleConfirm(param, data) {
+      console.log(param, data, "data111");
+
       this.$refs.menuDialog.loading = true;
       if (param) {
         editMenu(data.id, data)
           .then((res) => {
             this.$refs.menuDialog.loading = true;
-            if (res.code === '00000') {
+            if (res.code === "00000") {
               this.$message.success("修改成功");
-              this.$refs.menuDialog.handleCancel();
               this.handleSearch();
-              this.expands.push(`${data.parentId}`);
+              this.$nextTick(() => {
+                this.expands.push(...[`${data.parentId}`]);
+                this.$refs.menuDialog.handleCancel();
+              });
             }
           })
           .finally(() => {
@@ -256,11 +277,15 @@ export default {
       } else {
         addMenu(data)
           .then((res) => {
-            if (res.code === '00000') {
+            if (res.code === "00000") {
               this.$message.success("添加成功");
-              this.$refs.menuDialog.handleCancel();
               this.handleSearch();
-              this.expands.push(`${data.parentId}`);
+              this.$nextTick(() => {
+                console.log(data, "data");
+                this.expands.push(...[`${data.parentId}`]);
+                console.log(this.expands, "expands");
+                this.$refs.menuDialog.handleCancel();
+              });
             }
           })
           .finally(() => {
@@ -269,6 +294,6 @@ export default {
       }
     },
     handleCancel() {},
-  }
+  },
 };
 </script>

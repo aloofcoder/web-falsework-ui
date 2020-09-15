@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
-import router from '../router'
+import { getToken, removeToken } from '@/utils/auth'
+import router, { resetRouter } from '@/router'
+var msgStack = false
 
 // create an axios instance
 const service = axios.create({
@@ -16,7 +17,7 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
+    if (getToken()) {
       // let each request carry token
       // please modify it according to the actual situation
       config.headers['Authorization'] = getToken()
@@ -61,12 +62,12 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     let msg
-    let login = false
+    let isLogin = false
     if (error && error.response && error.response.status) {
       let status = error.response.status
       switch (status) {
         case 401:
-          login = true
+          isLogin = true
           msg = '登录已失效'
           break
         case 404:
@@ -83,8 +84,10 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
-    if(login) {
-      router.replace(`/login?redirect=${router.currentRoute.path}`)
+    if (isLogin) {
+      removeToken()
+      router.replace(`/login?${router.currentRoute.path}`)
+      return Promise.reject(new Error(msg))
     }
     return Promise.reject(error)
   }

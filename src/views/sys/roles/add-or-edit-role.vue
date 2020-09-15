@@ -37,34 +37,45 @@ export default {
       isEdit: false,
       visibvle: false,
       form: {
-        roleName: "",
-        roleMark: "",
-        roleDesc: "",
-        roleSort: "",
-        status: ""
+        roleName: undefined,
+        roleMark: undefined,
+        roleDesc: undefined,
+        roleSort: 0
       },
       formLabelWidth: "100px",
       roleRules: {
         roleName: [
-          { required: true, message: "请输入角色名", trigger: "blur" }
+          { required: true, message: "请输入角色名", trigger: "blur" },
+          {
+            min: 2,
+            max: 10,
+            message: "角色名长度在 2 到 10 个字符",
+            trigger: "blur",
+          },
         ],
         roleMark: [
-          { required: true, message: "请输入角色标记", trigger: "blur" }
+          { required: true, message: "请输入角色标记", trigger: "blur" },
+                    {
+            min: 2,
+            max: 50,
+            message: "角色标记长度在 2 到 50 个字符",
+            trigger: "blur",
+          },
         ],
         roleDesc: [
-          { required: true, message: "请输入角色描述", trigger: "blur" }
+          { required: true, message: "请输入角色描述", trigger: "blur" },
+                    {
+            min: 2,
+            max: 50,
+            message: "角色描述长度在 2 到 50 个字符",
+            trigger: "blur",
+          },
         ],
         roleSort: [
-          { required: true, message: "请输入排序号", trigger: "blur" }
-        ],
-        status: [
-          {
-            required: true,
-            message: "请输入状态(1正常2禁用)",
-            trigger: "blur"
-          }
+          { required: true, message: "请输入排序号", trigger: "change" },
+          { type: 'number', message: "排序号格式为数字", trigger: "change" },
         ]
-      }
+      },
     };
   },
   methods: {
@@ -77,8 +88,8 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchRole(data.roleId)
-        .then(res => {
-          if (res.code === '00000') {
+        .then((res) => {
+          if (res.code === "00000") {
             this.form = Object.assign({}, this.form, res.data);
           }
         })
@@ -92,7 +103,7 @@ export default {
       this.$refs.roleForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.roleForm.validate(valid => {
+      this.$refs.roleForm.validate((valid) => {
         if (!valid) {
           return false;
         } else {
@@ -102,8 +113,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "";
-    }
-  }
+    },
+  },
 };
 </script>
 
