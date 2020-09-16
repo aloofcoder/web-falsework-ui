@@ -15,3 +15,18 @@
 ![菜单管理](https://bakn.oss-cn-beijing.aliyuncs.com/1600245531%281%29.png)
 * 部门管理
 ![部门管理](https://bakn.oss-cn-beijing.aliyuncs.com/1600245546%281%29.png)
+
+### 启动项目
+```
+# 克隆项目
+git clone https://github.com/aloofcoder/web-falsework-ui.git
+
+# 进入项目目录
+cd web-falsework-ui
+
+# 安装依赖
+npm install
+
+# 启动服务
+npm run dev
+```
