@@ -231,19 +231,6 @@ export default {
   },
   methods: {
     handleSelectMenuClass(menuClass) {
-      this.form = {
-        parentId: undefined,
-        menuName: undefined,
-        menuPath: undefined,
-        menuRedirect: undefined,
-        menuComponent: undefined,
-        menuMark: undefined,
-        menuClass: menuClass,
-        menuDesc: undefined,
-        menuSort: 1,
-        isHidden: 0,
-        menuIcon: undefined,
-      };
       this.$refs.menuForm.resetFields();
       switch (menuClass) {
         case 1:
@@ -285,19 +272,6 @@ export default {
     handleCancel() {
       this.visibvle = false;
       this.$emit("cancel");
-      this.form = {
-        parentId: undefined,
-        menuName: undefined,
-        menuPath: undefined,
-        menuRedirect: undefined,
-        menuComponent: undefined,
-        menuMark: undefined,
-        menuClass: 2,
-        menuDesc: undefined,
-        menuSort: 1,
-        isHidden: 0,
-        menuIcon: undefined,
-      };
       this.$refs.menuForm.resetFields();
     },
     handleConfirm() {

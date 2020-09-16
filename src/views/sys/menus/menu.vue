@@ -66,8 +66,8 @@
             />
           </template>
         </el-table-column>
-        <el-table-column prop="menuComponent" label="组件地址" min-width="240" sortable="custom"></el-table-column>
-        <el-table-column prop="menuMark" label="权限标记" min-width="150" sortable="custom"></el-table-column>
+        <el-table-column prop="menuComponent" label="组件地址" min-width="240" sortable="custom" />
+        <el-table-column prop="menuMark" label="权限标记" min-width="150" sortable="custom" />
         <el-table-column
           prop="menuClass"
           label="菜单类型"
@@ -150,13 +150,7 @@
 </template>
 
 <script>
-import {
-  fetchTree,
-  fetchList,
-  removeMenu,
-  addMenu,
-  editMenu,
-} from "@/api/menu";
+import { fetchTree, removeMenu, addMenu, editMenu } from "@/api/menu";
 import AddOrEditMenu from "./add-or-edit-menu";
 export default {
   name: "MenuList",
