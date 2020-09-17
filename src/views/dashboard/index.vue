@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <el-row :gutter="20">
-      <el-col :span="6" v-for="(item, index) in cards" :key="index">
+      <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" v-for="(item, index) in cards" :key="index">
         <el-card class="dashboard-card" shadow="never">
           <div class="dashboard-card-box" :style="{backgroundColor: item.bg}">
             <h1>{{ item.value }}</h1>
@@ -11,7 +11,7 @@
       </el-col>
     </el-row>
     <el-row class="dashboard-info">
-      <el-col :span="8">
+      <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" >
         <el-card shadow="never" class="dashboard-info-card">
           <div class="dashboard-info-card-header">
             <h3>您好， {{name}}</h3>
@@ -23,7 +23,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="16">
+      <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" >
         <el-card shadow="never" class="dashboard-info-card">
           <div id="myChart" style="width: 100%; height: 450px"></div>
         </el-card>
@@ -72,7 +72,7 @@ export default {
       },
       color: ["#009EFB", "#39C449"],
       legend: {
-        right: 80,
+        right: 0,
         icon: "circle",
         selectedMode: false,
         align: "left",
@@ -140,6 +140,7 @@ export default {
   }
 
   &-card {
+    margin: 10px 0;
     min-width: 0;
     word-wrap: break-word;
     background-color: #fff;
@@ -179,7 +180,7 @@ export default {
   }
 
   &-info {
-    margin-top: 25px;
+    margin: 15px 0;
 
     h1,
     h2,
