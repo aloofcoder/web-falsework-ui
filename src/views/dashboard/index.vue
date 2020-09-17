@@ -58,12 +58,12 @@ export default {
           bg: "#7460EE",
         },
         {
-          name: "网页数",
+          name: "访问数",
           value: "5963",
           bg: "#39C449",
         },
         {
-          name: "跳出率",
+          name: "点击率",
           value: "10%",
           bg: "#FFBC34",
         },
