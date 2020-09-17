@@ -23,9 +23,10 @@
         icon="el-icon-plus"
         type="primary"
         @click="handleAdd()"
+        v-if="$authed('sys:users:add')"
       >添加</el-button>
       <el-button
-        v-if="multipleSelection.length > 0"
+        v-if="multipleSelection.length > 0 && $authed('sys:users:deletes')"
         class="filter-item"
         icon="el-icon-delete"
         type="danger"
@@ -54,6 +55,7 @@
         <el-table-column prop="status" label="状态" width="120" align="center" sortable="custom">
           <template slot-scope="scope">
             <el-switch
+              :disabled="true"
               v-model="scope.row.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
@@ -62,13 +64,33 @@
             ></el-switch>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="150"
+          align="center"
+          v-if="$authed('sys:users:update') || $authed('sys:users:role_assign') || $authed('sys:users:delete')"
+        >
           <template slot-scope="scope">
-            <el-button @click="handleOperate(scope.row, 'edit')" type="text" size="small">编辑</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button @click="handleOperate(scope.row, 'assign')" type="text" size="small">角色</el-button>
-            <el-divider direction="vertical"></el-divider>
+            <el-button
+              @click="handleOperate(scope.row, 'edit')"
+              v-if="$authed('sys:users:update')"
+              type="text"
+              size="small"
+            >编辑</el-button>
+            <el-divider direction="vertical" v-if="$authed('sys:users:update')"></el-divider>
+            <el-button
+              @click="handleOperate(scope.row, 'assign')"
+              v-if="$authed('sys:users:role_assign')"
+              type="text"
+              size="small"
+            >角色</el-button>
+            <el-divider
+              direction="vertical"
+              v-if="$authed('sys:users:role_assign') && $authed('sys:users:delete')"
+            ></el-divider>
             <el-popconfirm
+              v-if="$authed('sys:users:delete')"
               :title="`您确定删除用户 【${scope.row.userName}】 吗？`"
               @onConfirm="handleOperate(scope.row, 'delete')"
             >
@@ -142,7 +164,7 @@ export default {
         ...this.searchObject,
       })
         .then((res) => {
-          if (res.code === '00000') {
+          if (res.code === "00000") {
             this.searchObject.page = res.data.currPage;
             this.searchObject.limit = res.data.pageSize;
             this.total = res.data.totalCount;
@@ -190,7 +212,7 @@ export default {
     handleDelete(userNums) {
       console.log(userNums, "11111111");
       removeUser(userNums).then((res) => {
-        if (res.code === '00000') {
+        if (res.code === "00000") {
           this.$message.success("删除用户成功");
           this.handleSearch();
         }
@@ -222,7 +244,7 @@ export default {
       if (param) {
         editUser(data.userNum, data)
           .then((res) => {
-            if (res.code === '00000') {
+            if (res.code === "00000") {
               this.$message.success("修改用户成功");
               this.$refs.userDialog.handleCancel();
               this.handleSearch();
@@ -234,7 +256,7 @@ export default {
       } else {
         addUser(data)
           .then((res) => {
-            if (res.code === '00000') {
+            if (res.code === "00000") {
               this.$message.success("添加用户成功");
               this.$refs.userDialog.handleCancel();
               this.handleSearch();
@@ -249,7 +271,7 @@ export default {
       console.log("角色分配：", data);
       this.$refs.assignRoleDialog.loading = true;
       assignUserRole(data.userNum, data.userRoles).then((res) => {
-        if (res.code === '00000') {
+        if (res.code === "00000") {
           this.$message.success("用户角色分配成功");
           this.$refs.assignRoleDialog.handleCancel();
           this.handleSearch();

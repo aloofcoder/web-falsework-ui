@@ -23,9 +23,10 @@
         icon="el-icon-plus"
         type="primary"
         @click="handleAdd()"
+        v-if="$authed('sys:orgs:add')"
       >添加</el-button>
       <el-button
-        v-if="multipleSelection.length > 0"
+        v-if="multipleSelection.length > 0 && $authed('sys:orgs:deletes')"
         class="filter-item"
         icon="el-icon-delete"
         type="danger"
@@ -51,6 +52,7 @@
         <el-table-column prop="status" label="状态" sortable="custom">
           <template slot-scope="scope">
             <el-switch
+              :disabled="true"
               v-model="scope.row.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
@@ -59,11 +61,29 @@
             ></el-switch>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="110"
+          align="center"
+          v-if="$authed('sys:orgs:update') && $authed('sys:orgs:delete')"
+        >
           <template slot-scope="scope">
-            <el-button @click="handleOperate(scope.row, 'edit')" type="text" size="small">编辑</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-popconfirm :title="`您确定删除部门吗？`" @onConfirm="handleOperate(scope.row, 'delete')">
+            <el-button
+              v-if="$authed('sys:orgs:update')"
+              @click="handleOperate(scope.row, 'edit')"
+              type="text"
+              size="small"
+            >编辑</el-button>
+            <el-divider
+              direction="vertical"
+              v-if="$authed('sys:orgs:update') && $authed('sys:orgs:delete')"
+            ></el-divider>
+            <el-popconfirm
+              v-if="$authed('sys:orgs:update')"
+              :title="`您确定删除部门吗？`"
+              @onConfirm="handleOperate(scope.row, 'delete')"
+            >
               <el-button slot="reference" class="el-delete-btn" type="text" size="small">删除</el-button>
             </el-popconfirm>
           </template>
@@ -125,7 +145,7 @@ export default {
         ...this.searchObject,
       })
         .then((res) => {
-          if (res.code === '00000') {
+          if (res.code === "00000") {
             this.searchObject.page = res.data.currPage;
             this.searchObject.limit = res.data.pageSize;
             this.total = res.data.totalCount;
@@ -165,7 +185,7 @@ export default {
     },
     handleDelete(ids) {
       removeOrg(ids).then((res) => {
-        if (res.code === '00000') {
+        if (res.code === "00000") {
           this.$message.success("删除成功");
           this.handleSearch();
         }
@@ -190,7 +210,7 @@ export default {
         editOrg(data.id, data)
           .then((res) => {
             this.$refs.orgDialog.loading = true;
-            if (res.code === '00000') {
+            if (res.code === "00000") {
               this.$message.success("修改成功");
               this.$refs.orgDialog.handleCancel();
               this.handleSearch();
@@ -202,7 +222,7 @@ export default {
       } else {
         addOrg(data)
           .then((res) => {
-            if (res.code === '00000') {
+            if (res.code === "00000") {
               this.$message.success("添加成功");
               this.$refs.orgDialog.handleCancel();
               this.handleSearch();

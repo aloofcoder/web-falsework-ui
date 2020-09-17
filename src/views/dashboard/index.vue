@@ -13,19 +13,26 @@
     <el-row class="dashboard-info">
       <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" >
         <el-card shadow="never" class="dashboard-info-card">
-          <div class="dashboard-info-card-header">
-            <h3>您好， {{name}}</h3>
-            <span>you have 4 new messages</span>
-          </div>
-          <div>
-            <h6>Pavan Kumpar</h6>
-            <span>Just see the my adminl</span>
-          </div>
+          <div id="myChart1" style="width: 100%; height: 450px"></div>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" >
         <el-card shadow="never" class="dashboard-info-card">
           <div id="myChart" style="width: 100%; height: 450px"></div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row class="dashboard-info">
+      <el-col :span="24">
+        <el-card shadow="never" class="dashboard-info-card">
+          <el-table :data="tableData" border style="width: 100%">
+            <el-table-column fixed prop="date" label="日期"></el-table-column>
+            <el-table-column prop="name" label="姓名"></el-table-column>
+            <el-table-column prop="province" label="省份"></el-table-column>
+            <el-table-column prop="city" label="市区"></el-table-column>
+            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="zip" label="邮编"></el-table-column>
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
@@ -43,24 +50,58 @@ export default {
         {
           name: "在线数",
           value: "1,738",
-          bg: "#009EFB"
+          bg: "#009EFB",
         },
         {
           name: "用户数",
           value: "2,064",
-          bg: "#7460EE"
+          bg: "#7460EE",
         },
         {
           name: "网页数",
           value: "5963",
-          bg: "#39C449"
+          bg: "#39C449",
         },
         {
           name: "跳出率",
           value: "10%",
-          bg: "#FFBC34"
-        }
-      ]
+          bg: "#FFBC34",
+        },
+      ],
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1517 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1519 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1516 弄",
+          zip: 200333,
+        },
+      ],
     };
   },
   mounted() {
@@ -68,7 +109,7 @@ export default {
     // 绘制图表
     myChart.setOption({
       title: {
-        text: "产品销量"
+        text: "产品销量",
       },
       color: ["#009EFB", "#39C449"],
       legend: {
@@ -76,25 +117,25 @@ export default {
         icon: "circle",
         selectedMode: false,
         align: "left",
-        data: ["2019", "2020"]
+        data: ["2019", "2020"],
       },
       grid: {
         left: "3%",
         right: "4%",
         bottom: "3%",
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: "category",
         boundaryGap: false,
-        data: ["0", "4", "8", "12", "16", "20", "24", "30"]
+        data: ["0", "4", "8", "12", "16", "20", "24", "30"],
       },
       yAxis: {
         type: "value",
         axisLabel: {
-          formatter: "{value}k"
+          formatter: "{value}k",
         },
-        boundaryGap: false
+        boundaryGap: false,
       },
       series: [
         {
@@ -102,35 +143,86 @@ export default {
           data: [0, 2, 3, 0, 11, 1, 4, 1],
           type: "line",
           lineStyle: {
-            width: 1
+            width: 1,
           },
           smooth: true,
           symbol: "circle",
           symbolSize: 6,
           areaStyle: {
-            color: "rgba(0, 158, 251, 0.5)"
-          }
+            color: "rgba(0, 158, 251, 0.5)",
+          },
         },
         {
           name: "2020",
           data: [0, 4, 0, 4, 0, 4, 0, 4],
           type: "line",
           lineStyle: {
-            width: 1
+            width: 1,
           },
           smooth: true,
           symbol: "circle",
           symbolSize: 6,
           areaStyle: {
-            color: "rgba(57, 196, 73, 0.5)"
-          }
-        }
-      ]
+            color: "rgba(57, 196, 73, 0.5)",
+          },
+        },
+      ],
+    });
+    var myChart1 = echarts.init(document.getElementById("myChart1"));
+    myChart1.setOption({
+      title: {
+        text: "访问统计",
+      },
+      color: ["#009EFB", "#39C449", "#7460EE", "#FFBC34"],
+      tooltip: {
+        trigger: "item",
+        formatter: "{a} <br/>{b}: {c} ({d}%)",
+      },
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true,
+      },
+      legend: {
+        orient: "vertical",
+        selectedMode: false,
+        right: 10,
+        data: ["直接访问", "邮件营销", "联盟广告", "视频广告"],
+      },
+      series: [
+        {
+          name: "访问来源",
+          type: "pie",
+          radius: ["50%", "70%"],
+          avoidLabelOverlap: false,
+          label: {
+            show: false,
+            position: "center",
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: "30",
+              fontWeight: "bold",
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: [
+            { value: 1335, name: "直接访问" },
+            { value: 310, name: "邮件营销" },
+            { value: 234, name: "联盟广告" },
+            { value: 135, name: "视频广告" },
+          ],
+        },
+      ],
     });
   },
   computed: {
-    ...mapGetters(["name"])
-  }
+    ...mapGetters(["name"]),
+  },
 };
 </script>
 

@@ -23,9 +23,10 @@
         icon="el-icon-plus"
         type="primary"
         @click="handleAdd()"
+        v-if="$authed('sys:roles:add')"
       >添加</el-button>
       <el-button
-        v-if="multipleSelection.length > 0"
+        v-if="multipleSelection.length > 0 && $authed('sys:roles:deletes')"
         class="filter-item"
         icon="el-icon-delete"
         type="danger"
@@ -52,6 +53,7 @@
         <el-table-column prop="status" label="状态" width="120" align="center" sortable="custom">
           <template slot-scope="scope">
             <el-switch
+              :disabled="true"
               v-model="scope.row.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
@@ -60,13 +62,36 @@
             ></el-switch>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="150"
+          align="center"
+          v-if="$authed('sys:roles:update') || $authed('sys:roles:auth') || $authed('sys:roles:delete')"
+        >
           <template slot-scope="scope">
-            <el-button @click="handleOperate(scope.row, 'edit')" type="text" size="small">编辑</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button @click="handleOperate(scope.row, 'auth')" type="text" size="small">权限</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-popconfirm :title="`您确定删除吗？`" @onConfirm="handleOperate(scope.row, 'delete')">
+            <el-button
+              v-if="$authed('sys:roles:update')"
+              @click="handleOperate(scope.row, 'edit')"
+              type="text"
+              size="small"
+            >编辑</el-button>
+            <el-divider direction="vertical" v-if="$authed('sys:users:update')"></el-divider>
+            <el-button
+              v-if="$authed('sys:roles:auth')"
+              @click="handleOperate(scope.row, 'auth')"
+              type="text"
+              size="small"
+            >权限</el-button>
+            <el-divider
+              direction="vertical"
+              v-if="$authed('sys:roles:auth') && $authed('sys:roles:delete')"
+            ></el-divider>
+            <el-popconfirm
+              v-if="$authed('sys:roles:delete')"
+              :title="`您确定删除吗？`"
+              @onConfirm="handleOperate(scope.row, 'delete')"
+            >
               <el-button slot="reference" class="el-delete-btn" type="text" size="small">删除</el-button>
             </el-popconfirm>
           </template>

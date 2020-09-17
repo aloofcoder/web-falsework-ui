@@ -35,25 +35,39 @@ export default {
       visibvle: false,
       form: {
         parentId: 0,
-        orgName: "",
-        orgDesc: "",
-        orgSort: "",
-        status: ""
+        orgName: undefined,
+        orgDesc: undefined,
+        orgSort: 0,
       },
       formLabelWidth: "100px",
       orgRules: {
         parentId: [
-          { required: true, message: "请输入父部门", trigger: "blur" }
+          { required: true, message: "请输入父部门", trigger: "blur" },
+          { type: "number", message: "无效的父部门", trigger: "blur" },
         ],
-        orgName: [{ required: true, message: "请输入部门名", trigger: "blur" }],
+        orgName: [
+          { required: true, message: "请输入部门名", trigger: "blur" },
+          {
+            min: 2,
+            max: 10,
+            message: "部门名长度在2-10个字符",
+            trigger: "blur",
+          },
+        ],
         orgDesc: [
-          { required: true, message: "请输入部门描述", trigger: "blur" }
+          { required: true, message: "请输入部门描述", trigger: "blur" },
+          {
+            min: 2,
+            max: 50,
+            message: "部门描述长度在2-50个字符",
+            trigger: "blur",
+          },
         ],
         orgSort: [
-          { required: true, message: "请输入部门排序", trigger: "blur" }
+          { required: true, message: "请输入部门排序", trigger: "blur" },
+          { type: "number", message: "排序号格式为数字", trigger: "change" },
         ],
-        status: [{ required: true, message: "请输入1(正常）", trigger: "blur" }]
-      }
+      },
     };
   },
   methods: {
@@ -66,8 +80,8 @@ export default {
       this.visibvle = true;
       this.loading = true;
       fetchOrg(data.id)
-        .then(res => {
-          if (res.code === '00000') {
+        .then((res) => {
+          if (res.code === "00000") {
             this.form = Object.assign({}, this.form, res.data);
           }
         })
@@ -81,7 +95,7 @@ export default {
       this.$refs.orgForm.resetFields();
     },
     handleConfirm() {
-      this.$refs.orgForm.validate(valid => {
+      this.$refs.orgForm.validate((valid) => {
         if (!valid) {
           return false;
         } else {
@@ -91,8 +105,8 @@ export default {
     },
     title() {
       return (this.isEdit ? "编辑" : "添加") + "部门";
-    }
-  }
+    },
+  },
 };
 </script>
 
