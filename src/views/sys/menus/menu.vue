@@ -52,8 +52,6 @@
         <el-table-column prop="menuName" label="菜单名" min-width="200" sortable="custom">
           <template slot-scope="scope">{{scope.row.menuName}}</template>
         </el-table-column>
-        <el-table-column prop="menuPath" label="菜单路径" min-width="200" sortable="custom"></el-table-column>
-        <el-table-column prop="menuRedirect" label="重定向路径" min-width="150" sortable="custom"></el-table-column>
         <el-table-column prop="menuIcon" label="菜单图标" min-width="80" align="center">
           <template slot-scope="scope">
             <i
@@ -66,6 +64,8 @@
             />
           </template>
         </el-table-column>
+        <el-table-column prop="menuPath" label="菜单路径" min-width="200" sortable="custom"></el-table-column>
+        <el-table-column prop="menuRedirect" label="重定向路径" min-width="150" sortable="custom"></el-table-column>
         <el-table-column prop="menuComponent" label="组件地址" min-width="240" sortable="custom" />
         <el-table-column prop="menuMark" label="权限标记" min-width="150" sortable="custom" />
         <el-table-column
