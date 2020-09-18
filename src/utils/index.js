@@ -139,13 +139,27 @@ export function getRouterList(menus) {
       }
     })
   })
-
-  menuTree.push(... otherRoutes)
+  // 将菜单排序
+  toSortMenu(menuTree);
+  menuTree.push(...otherRoutes)
   return menuTree
 }
 
+export function toSortMenu(menuTree) {
+  menuTree.sort(function (a, b) {
+    return a.sort - b.sort
+  })
+  menuTree.forEach(item => {
+    if (item.children && item.children.length > 0) {
+      toSortMenu(item.children)
+    }
+  })
+}
+
+
 export function convertMenu2Router(item) {
   let r = {
+    sort: item.menuSort,
     hidden: item.isHidden === 1 ? true : false,
     path: item.menuPath,
     // component: item.menuClass === 1 ? Layout : loadView(item.menuComponent),

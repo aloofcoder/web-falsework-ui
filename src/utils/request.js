@@ -72,6 +72,9 @@ service.interceptors.response.use(
         case 404:
           msg = '无效的请求地址'
           break
+        case 500:
+          msg = '服务器错误'
+          break
         default:
           msg = error.message
       }

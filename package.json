@@ -1,8 +1,8 @@
 {
-  "name": "vue-admin-template",
+  "name": "web-falsework-ui",
   "version": "4.4.0",
   "description": "通用管理系统",
-  "author": "Pan <panfree23@gmail.com>",
+  "author": "aloofcoder <hanl1946@163.com>",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",

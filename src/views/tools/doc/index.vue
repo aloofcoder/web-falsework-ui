@@ -1,5 +1,11 @@
 <template>
-  <iframe src="http://localhost:7000/api/swagger-ui/index.html?configUrl=/api/v3/api-docs/swagger-config" width="100%" height="1000" id="myiframe1" scrolling="yes" frameborder="0"></iframe>
+  <iframe
+    id="docIFrame"
+    src="/api/swagger-ui.html"
+    frameborder="0"
+    style="overflow: hidden; height: 100%;
+        width: 100%; position: absolute;"
+  ></iframe>
 </template>
 <script>
 export default {
@@ -7,9 +13,7 @@ export default {
   data() {
     return {};
   },
-  mounted() {
-    
-  },
-  methods: {}
+  mounted() {},
+  methods: {},
 };
 </script>
