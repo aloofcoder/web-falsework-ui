@@ -36,13 +36,13 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy:{
+    proxy: {
       '/api': {
-        target: 'http://localhost:7000',//代理地址，这里设置的地址会代替axios中设置的baseURL
+        target: 'https://admin.minzhile.top',//代理地址，这里设置的地址会代替axios中设置的baseURL
         changeOrigin: true,// 如果接口跨域，需要进行这个参数配置
         pathRewrite: {
-            '^/api': '/api' 
-       }
+          '^/api': '/api'
+        }
       }
     }
   },
@@ -95,7 +95,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

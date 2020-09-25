@@ -146,9 +146,9 @@ export default {
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 
-$bg: #54667a;
+$bg: #FFFFFF;
 $light_gray: #54667a;
-$cursor: #fff;
+$cursor: #54667a;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
